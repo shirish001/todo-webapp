@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todos</title>
+    <link rel="stylesheet" href="styles/main.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="scripts/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Todo Management</h1>
+      <p>Manage your (daily) todos with ease!</p>
+    </header>
+    <main id="todos-app">
+      <section id="todo-management">
+        <!-- this is how we add events in vue, @type_of_event = "method_defined_in_methods" -->
+        <form @submit="saveTodo">
+          <label for="text">Todo text</label>
+          <!-- v-model will listen for every keystroke in input element and store it in enteredTodoText -->
+          <input type="text" id="text" name="text" v-model="enteredTodoText" required />
+          <button>Save</button>
+        </form>
+      </section>
+      <section id="todos">
+        <p v-if="todos.length === 0 && !isLoading" >New todos added yet - maybe start adding some?</p>
+        <p v-else-if="isLoading">Loading...</p>
+        <ul v-else id="todos-list">
+          <!-- the v-for directive creates a list of items which are stored in an array or an obj -->
+          <li v-for="todo in todos">
+            <!-- todo is the newTodo that is pushed as an element in todos array(just like ejs loops) -->
+            <p>{{todo.text}}</p> 
+            <div>
+              <button @click="startEditTodo(todo.id)">Edit</button>
+              <button @click="deleteTodo(todo.id)">Delete</button>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
